@@ -19,4 +19,9 @@ provider:
 
 functions:
   create:
-    handler: handler.hello
+    handler: handler.createContact
+    events:
+      - http:
+          path: /contact-us
+          method: post
+          cors: true
