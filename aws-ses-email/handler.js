@@ -1,7 +1,7 @@
 "use strict";
 const AWS = require('aws-sdk');
 const ses = new AWS.SES();
-exports.hello = async (event, context) => {
+exports.createContact = async (event, context) => {
   console.log("Received:::", event);
   const { to, from, subject, message } = JSON.parse(event.body);
   
@@ -17,7 +17,7 @@ exports.hello = async (event, context) => {
 
 const params = {
   Destination: {
-    ToAddress: [to]
+    ToAddresses: [to]
   },
   Message: {
     Body: {
