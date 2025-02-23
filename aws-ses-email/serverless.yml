@@ -1,9 +1,6 @@
-# "org" ensures this Service is used with the correct Serverless Framework Access Key.
-org: juanuribe513
-# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
-app: projects
-# "service" is the name of this project. This will also be added to your AWS resource names.
-service: aws-ses-email
+service: final-aws-ses-email
+
+frameworkVersion: '4'
 
 provider:
   name: aws
@@ -13,9 +10,9 @@ provider:
       statements:
         - Effect: Allow
           Action:
-            - ses:*
+            - "ses:*"
           Resource:
-            - '*'
+            - "*"
 
 functions:
   create:
@@ -25,3 +22,10 @@ functions:
           path: /contact-us
           method: post
           cors: true
+
+package:
+  patterns:
+    - '!node_modules/**'
+    - '!tests/**'
+    - '!.git/**'
+    - '!README.md'
