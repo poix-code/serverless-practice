@@ -39,6 +39,7 @@ provider:
   environment:
     USERS_TABLE: ${param:tableName}
     REGION: ${param:region}
+    SNS_TOPIC_ARN: arn:aws:sns:us-east-1:366852414004:quotes-messages-dev
 
 functions:
   quotes:
@@ -72,9 +73,9 @@ resources:
           healthyRetryPolicy:
             numRetries: 20
             minDelayTarget: 30
-            MaxDelayTarget: 600
+            maxDelayTarget: 600
             backoffFunction: exponential
-            
+
     UsersTable:
       Type: AWS::DynamoDB::Table
       Properties:
