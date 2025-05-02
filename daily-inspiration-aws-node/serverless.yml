@@ -37,9 +37,16 @@ provider:
           Resource:
             - Fn::GetAtt: [UsersTable, Arn]
   environment:
+    SENDGRID_API_KEY: ${env:SENDGRID_API_KEY}
     USERS_TABLE: ${param:tableName}
     REGION: ${param:region}
     SNS_TOPIC_ARN: arn:aws:sns:us-east-1:366852414004:quotes-messages-dev
+#Omit front-end development
+package:
+  exclude:
+    - front-end/**
+    - test/**
+    - docs/**
 
 functions:
   quotes:
@@ -62,6 +69,21 @@ functions:
       - http:
           path: static-mailer
           method: post
+          cors: true
+  sendEmail:
+    handler: handler/sendEmail.sendEmail
+    events:
+      - http:
+          path: sendEmail
+          method: post
+          cors: true
+      - schedule: cron(0 13 * * ? *)
+  getSubscribers:
+    handler: handler/getSubscribers.getSubscribers
+    events:
+      - http:
+          path: getSubscribers
+          method: get
           cors: true
 
 resources:
